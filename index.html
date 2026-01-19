@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Puzzle Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .start-btn {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px 25px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .main {
+            display: flex;
+            gap: 20px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 15px;
+        }
+
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 8px;
+        }
+
+        .c1 { background: #dcfce7; color: #16a34a; }
+        .c2 { background: #fee2e2; color: #dc2626; }
+        .c3 { background: #dbeafe; color: #2563eb; }
+        .c4 { background: #f3e8ff; color: #9333ea; }
+        .c5 { background: #fef9c3; color: #ca8a04; }
+        .c6 { background: #fce7f3; color: #db2777; }
+        .c7 { background: #e0e7ff; color: #4338ca; }
+        .c8 { background: #f3f4f6; color: #6b7280; }
+        .c9 { background: #d1fae5; color: #059669; }
+        .c10 { background: #fef3c7; color: #d97706; }
+        .c11 { background: #ecfccb; color: #65a30d; }
+        .empty { background: black; }
+
+        .sidebar {
+            width: 200px;
+        }
+
+        .box {
+            background: #ecfdf5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .controls button {
+            width: 40px;
+            height: 40px;
+            margin: 3px;
+            border: none;
+            border-radius: 6px;
+            background: #e5e7eb;
+            cursor: pointer;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="start-btn" id="startBtn">Bắt đầu</button>
+
+    <div class="main">
+        <div class="board">
+            <div class="cell tile c1">1</div>
+            <div class="cell tile c2">2</div>
+            <div class="cell tile c3">3</div>
+            <div class="cell tile c4">4</div>
+
+            <div class="cell tile c5">5</div>
+            <div class="cell tile c6">6</div>
+            <div class="cell tile c7">7</div>
+            <div class="cell tile c8">8</div>
+
+            <div class="cell tile c9">9</div>
+            <div class="cell tile c10">10</div>
+            <div class="cell tile c11">11</div>
+            <div class="cell tile empty"></div>
+        </div>
+        <p id="message" style="color: green; font-size: 22px; font-weight: bold;"></p>
+
+
+        <div class="sidebar">
+            <div class="box">
+                <p><b>Đồng hồ</b></p>
+                 <div class="timer" id="timer">00:00</div>
+            </div>
+
+            <div class="box">
+                <p><b>Hướng Dẫn Di Chuyển</b></p>
+                <div class="controls">
+                    <button>↑</button><br>
+                    <button>←</button>
+                    <button>↓</button>
+                    <button>→</button>
+                    <p>W A S D</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="history">
+        <p><b>Lịch Sử Lượt Chơi</b></p>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Bước đi</th>
+                <th>Thời gian</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+let timer = 0;
+let interval = null;
+let isPlaying = false;
+
+const timerEl = document.getElementById("timer");
+const startBtn = document.getElementById("startBtn");
+const tiles = document.querySelectorAll(".tile");
+
+function startTimer() {
+    timer = 0;
+    timerEl.textContent = "00:00";
+
+    interval = setInterval(() => {
+        timer++;
+        let minutes = String(Math.floor(timer / 60)).padStart(2, "0");
+        let seconds = String(timer % 60).padStart(2, "0");
+        timerEl.textContent = `${minutes}:${seconds}`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(interval);
+}
+
+startBtn.addEventListener("click", () => {
+    if (!isPlaying) {
+        isPlaying = true;
+        startBtn.textContent = "Kết thúc";
+        startTimer();
+    } else {
+        isPlaying = false;
+        startBtn.textContent = "Bắt đầu";
+        stopTimer();
+    }
+});
+
+</script>
+
+</body>
+</html>
